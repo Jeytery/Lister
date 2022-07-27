@@ -4,6 +4,13 @@
 import UIKit
 import Foundation
 
+//TODO: -
+// 1. Section + Row class -> struct
+// 2. remove id from Section and Row
+// 3. add clear() func to lister public interface
+// 4. add delegate and dataSource variables analogs
+// 5. add possibility to put view on header and footer 
+
 open class ListerSection: Hashable {
    
     public static func == (lhs: ListerSection, rhs: ListerSection) -> Bool {
