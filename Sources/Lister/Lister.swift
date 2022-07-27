@@ -187,5 +187,9 @@ public extension Lister {
         content[indexPath.section].rows.remove(at: indexPath.row)
         deleteRows(at: [indexPath], with: animation)
     }
+    
+    func clear() {
+        set([])
+    }
 }
 
