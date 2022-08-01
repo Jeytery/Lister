@@ -193,10 +193,17 @@ public extension Lister {
         with animation: UITableView.RowAnimation = .fade
     ) {
         for sectionIndex in 0 ..< content.count {
+            var normalRows: [ListerRow] = []
             for indexPathIndex in 0 ..< indexPaths.count {
                 if indexPaths[indexPathIndex].section != sectionIndex { continue }
-                content[sectionIndex].rows.remove(at: indexPaths[indexPathIndex].row)
+                for rowIndex in 0 ..< content[sectionIndex].rows.count {
+                    if rowIndex != indexPaths[indexPathIndex].row {
+                        normalRows.append(content[sectionIndex].rows[rowIndex])
+                    }
+                }
             }
+            content[sectionIndex].rows.removeAll()
+            content[sectionIndex].rows = normalRows
         }
         deleteRows(at: indexPaths, with: animation)
     }
@@ -206,3 +213,37 @@ public extension Lister {
     }
 }
 
+extension Array {
+    mutating func remove(elementsAtIndices indicesToRemove: [Int]) -> [Element] {
+        guard !indicesToRemove.isEmpty else {
+            return []
+        }
+        
+        // Copy the removed elements in the specified order.
+        let removedElements = indicesToRemove.map { self[$0] }
+        
+        // Sort the indices to remove.
+        let indicesToRemove = indicesToRemove.sorted()
+        
+        // Shift the elements we want to keep to the left.
+        var destIndex = indicesToRemove.first!
+        var srcIndex = destIndex + 1
+        func shiftLeft(untilIndex index: Int) {
+            while srcIndex < index {
+                self[destIndex] = self[srcIndex]
+                destIndex += 1
+                srcIndex += 1
+            }
+            srcIndex += 1
+        }
+        for removeIndex in indicesToRemove[1...] {
+            shiftLeft(untilIndex: removeIndex)
+        }
+        shiftLeft(untilIndex: self.endIndex)
+        
+        // Remove the extra elements from the end of the array.
+        self.removeLast(indicesToRemove.count)
+        
+        return removedElements
+    }
+}
