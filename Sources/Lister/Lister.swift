@@ -192,11 +192,13 @@ public extension Lister {
         at indexPaths: [IndexPath],
         with animation: UITableView.RowAnimation = .fade
     ) {
-        deleteRows(at: indexPaths, with: animation)
         for sectionIndex in 0 ..< content.count {
-            if indexPaths[sectionIndex].section != sectionIndex { continue }
-            content[sectionIndex].rows.remove(at: indexPaths[sectionIndex].row)
+            for indexPathIndex in 0 ..< indexPaths.count {
+                if indexPaths[indexPathIndex].section != sectionIndex { continue }
+                content[sectionIndex].rows.remove(at: indexPaths[indexPathIndex].row)
+            }
         }
+        deleteRows(at: indexPaths, with: animation)
     }
     
     func clear() {
