@@ -189,23 +189,15 @@ public extension Lister {
     }
     
     func removeRows(
-        at indexPaths: [IndexPath],
+        at section: Int,
+        rows: [Int],
         with animation: UITableView.RowAnimation = .fade
     ) {
-        for sectionIndex in 0 ..< content.count {
-            var normalRows: [ListerRow] = []
-            for indexPathIndex in 0 ..< indexPaths.count {
-                if indexPaths[indexPathIndex].section != sectionIndex { continue }
-                for rowIndex in 0 ..< content[sectionIndex].rows.count {
-                    if rowIndex != indexPaths[indexPathIndex].row {
-                        normalRows.append(content[sectionIndex].rows[rowIndex])
-                    }
-                }
-            }
-            content[sectionIndex].rows.removeAll()
-            content[sectionIndex].rows = normalRows
+        let indexPathes: [IndexPath] = rows.compactMap {
+            return IndexPath(row: $0, section: section)
         }
-        deleteRows(at: indexPaths, with: animation)
+        let _ = content[section].rows.remove(elementsAtIndices: rows)
+        deleteRows(at: indexPathes, with: animation)
     }
     
     func clear() {
