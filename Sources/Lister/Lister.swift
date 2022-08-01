@@ -187,6 +187,10 @@ public extension Lister {
         content[indexPath.section].rows.remove(at: indexPath.row)
         deleteRows(at: [indexPath], with: animation)
     }
+   
+    func clear() {
+        set([])
+    }
     
     func removeRows(
         at section: Int,
@@ -198,10 +202,6 @@ public extension Lister {
         }
         let _ = content[section].rows.remove(elementsAtIndices: rows)
         deleteRows(at: indexPathes, with: animation)
-    }
-    
-    func clear() {
-        set([])
     }
 }
 
