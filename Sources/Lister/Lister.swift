@@ -24,13 +24,13 @@ open class ListerSection: Hashable {
     let id = UUID()
     
     public var rows: [ListerRow]
-    public var header: String
-    public var footer: String
+    public var header: String?
+    public var footer: String?
     
     public init(
         rows: [ListerRow],
-        header: String,
-        footer: String
+        header: String? = nil,
+        footer: String? = nil
     ) {
         self.rows = rows
         self.header = header
@@ -137,7 +137,7 @@ extension Lister: UITableViewDelegate, UITableViewDataSource {
         titleForFooterInSection section: Int
     ) -> String? {
         let section = content[section]
-        return section.footer
+        return section.footer ?? ""
     }
     
     public func tableView(
@@ -145,7 +145,7 @@ extension Lister: UITableViewDelegate, UITableViewDataSource {
         titleForHeaderInSection section: Int
     ) -> String? {
         let section = content[section]
-        return section.header
+        return section.header ?? ""
     }
 }
 
@@ -153,6 +153,10 @@ public extension Lister {
     func set(_ content: [ListerSection]) {
         self.content = content
         reloadData()
+    }
+    
+    func clear() {
+        set([])
     }
     
     func insertRow(
@@ -188,10 +192,6 @@ public extension Lister {
         deleteRows(at: [indexPath], with: animation)
     }
    
-    func clear() {
-        set([])
-    }
-    
     func removeRows(
         at section: Int,
         rows: [Int],
@@ -205,7 +205,7 @@ public extension Lister {
     }
 }
 
-extension Array {
+fileprivate extension Array {
     mutating func remove(elementsAtIndices indicesToRemove: [Int]) -> [Element] {
         guard !indicesToRemove.isEmpty else {
             return []
