@@ -72,6 +72,10 @@ open class ListerRow: Hashable {
 
 open class Lister: UITableView {
     
+    func sectionViewsCount(_ section: Int) -> Int {
+        return content[section].rows.count
+    }
+    
     private var content: [ListerSection] = []
     
     public override init(
