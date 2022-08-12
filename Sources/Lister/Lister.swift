@@ -72,10 +72,6 @@ open class ListerRow: Hashable {
 
 open class Lister: UITableView {
     
-    func sectionViewsCount(_ section: Int) -> Int {
-        return content[section].rows.count
-    }
-    
     private var content: [ListerSection] = []
     
     public override init(
@@ -206,6 +202,10 @@ public extension Lister {
         }
         let _ = content[section].rows.remove(elementsAtIndices: rows)
         deleteRows(at: indexPathes, with: animation)
+    }
+    
+    public func sectionViewsCount(_ section: Int) -> Int {
+        return content[section].rows.count
     }
 }
 
