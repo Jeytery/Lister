@@ -204,7 +204,7 @@ public extension Lister {
         deleteRows(at: indexPathes, with: animation)
     }
     
-    public func sectionViewsCount(_ section: Int) -> Int {
+    func sectionViewsCount(_ section: Int) -> Int {
         return content[section].rows.count
     }
 }
