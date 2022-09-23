@@ -7,7 +7,6 @@ import Foundation
 //TODO: -
 // 1. Section + Row class -> struct
 // 2. remove id from Section and Row
-// 3. add clear() func to lister public interface
 // 4. add delegate and dataSource variables analogs
 // 5. add possibility to put view on header and footer 
 
@@ -72,6 +71,8 @@ open class ListerRow: Hashable {
 
 open class Lister: UITableView {
     
+    public var automaticallyDeselectRow = true
+    
     private var content: [ListerSection] = []
     
     public override init(
@@ -127,6 +128,9 @@ extension Lister: UITableViewDelegate, UITableViewDataSource {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
+        if automaticallyDeselectRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
         let section = content[indexPath.section]
         let row = section.rows[indexPath.row]
         row.action?()

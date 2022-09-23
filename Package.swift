@@ -15,7 +15,7 @@ let package = Package(
         
         .library(
             name: "Lister",
-            targets: ["Lister"]),
+            targets: ["Lister"])
     ],
     
     targets: [
